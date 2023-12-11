@@ -1,18 +1,17 @@
 Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
 
-# Tarkista, onko NuGet jo asennettu ja asenna se tarvittaessa ilman vahvistusta
-if (-not (Get-PackageProvider -Name NuGet -ErrorAction SilentlyContinue)) {
-    Write-Output "Asennetaan NuGet..."
-    Install-PackageProvider -Name NuGet -ForceBootstrap -Force
-    Import-PackageProvider -Name NuGet
-}
+# Asenna NuGet suoraan ilman tarkistusta
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force -Scope AllUsers -ForceBootstrap -Confirm:$False
+Import-PackageProvider -Name NuGet
+
+# Aseta PSGallery luotetuksi
+Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
 
 # Tarkista, onko PSWindowsUpdate-moduuli asennettu
 $psWindowsUpdateModule = Get-Module -ListAvailable -Name PSWindowsUpdate
 if (-not $psWindowsUpdateModule) {
     Write-Output "PSWindowsUpdate-moduulia ei löydy. Asennetaan moduuli..."
-    Set-PSRepository -Name PSGallery -InstallationPolicy Trusted
-    Get-PSRepository -Name PSGallery | Format-List * -Force
     Install-Module -Name PSWindowsUpdate -Force -Confirm:$false
 }
 
@@ -33,8 +32,8 @@ if (!((Get-WUServiceManager -ServiceID $MicrosoftUpdateServiceId).ServiceID -eq 
 
 try {
     Write-Output "Aloitetaan Windows Update..."
-    Get-WUInstall -MicrosoftUpdate -AcceptAll -AutoReboot -ErrorAction Stop
-    Get-WUInstall -MicrosoftUpdate -AcceptAll -Download -Install -AutoReboot -ErrorAction Stop
+    Get-WUInstall -MicrosoftUpdate -Category "Drivers" -AcceptAll -AutoReboot -ErrorAction Stop
+    Get-WUInstall -MicrosoftUpdate -Category "Drivers" -AcceptAll -Download -Install -AutoReboot -ErrorAction Stop
 } catch {
     Write-Error "Windows Update -prosessissa tapahtui virhe: $_. Tarkista yhteys ja yritä uudelleen."
 }
