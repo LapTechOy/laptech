@@ -1,4 +1,4 @@
-﻿<#
+<#
 .SYNOPSIS
 Ohittaa Windows 11:n asennuksen ja päivityksen laitteistovaatimukset (TPM, RAM, Secure Boot, CPU).
 
