@@ -20,7 +20,7 @@ Suorita skripti järjestelmänvalvojana PowerShellissä:
     .\Windows_TPM_SecureBoot_ohitus.ps1
 
 .TAI suorita se suoraan verkosta (esim. Gististä):
-    iwr -useb ""https://raw.githubusercontent.com/LapTechOy/laptech/main/Win11_Bypass.ps1"" | iex
+    iwr -useb "https://raw.githubusercontent.com/LapTechOy/laptech/main/Win11_Bypass.ps1" | iex
 
 .NOTES
 - Skripti **vaatii järjestelmänvalvojan oikeudet** ja yrittää korottaa itsensä automaattisesti.
