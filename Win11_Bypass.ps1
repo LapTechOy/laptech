@@ -186,14 +186,14 @@ if (-not (Test-Path $uhncKey)) {
 New-ItemProperty -Path $uhncKey -Name "SV2" -Value 0 -PropertyType DWord -Force | Out-Null
 
 # Määritetään Windows Update targetrelease -asetukset
-Write-Host "`n*** Maaritetaan Windows Update hakemaan Windows 11 24H2 -paivitysta ***" -ForegroundColor Cyan
+Write-Host "`n*** Maaritetaan Windows Update hakemaan Windows 11 25H2 -paivitysta ***" -ForegroundColor Cyan
 $WinUpdatePath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"
 if (!(Test-Path $WinUpdatePath)) {
     New-Item -Path $WinUpdatePath -Force | Out-Null
 }
 New-ItemProperty -Path $WinUpdatePath -Name "ProductVersion" -Value "Windows 11" -PropertyType String -Force
 New-ItemProperty -Path $WinUpdatePath -Name "TargetReleaseVersion" -Value 1 -PropertyType DWord -Force
-New-ItemProperty -Path $WinUpdatePath -Name "TargetReleaseVersionInfo" -Value "24H2" -PropertyType String -Force
+New-ItemProperty -Path $WinUpdatePath -Name "TargetReleaseVersionInfo" -Value "25H2" -PropertyType String -Force
 
 # Asetetaan rekisteriavain AllowTelemetry arvoksi 0
 Write-Host "Asetetaan rekisteriavain AllowTelemetry arvoksi 0..." -ForegroundColor Cyan
@@ -222,6 +222,6 @@ foreach ($task in $telemetryTasks) {
     }
 }
 
-Write-Host "*** Windows Update kohdistettu Windows 11 24H2 -paivitykseen! ***" -ForegroundColor Green
+Write-Host "*** Windows Update kohdistettu Windows 11 25H2 -paivitykseen! ***" -ForegroundColor Green
 Write-Host "`n*** Valmis! ***" -ForegroundColor Green
 Write-Host "*** Kaynnista tietokone uudelleen, jotta muutokset tulevat voimaan. ***" -ForegroundColor Yellow
